@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('admin.layouts.master')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -27,7 +27,7 @@
                     <div class="card">
                         <div class="card-header">
                             User Details
-                            <a href="{{ route('users.index') }}" class="btn btn-secondary float-right">Back</a>
+                            <a href="{{ route('admin.users.index') }}" class="btn btn-secondary float-right">Back</a>
                         </div>
                         <div class="card-body">
                             <p><strong>Name:</strong> {{ $user->name }}</p>

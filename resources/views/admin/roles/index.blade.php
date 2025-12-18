@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('admin.layouts.master')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -25,7 +25,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Roles</h3>
-                            <a href="{{ route('roles.create') }}" class="btn btn-primary float-right">Create Role</a>
+                            <a href="{{ route('admin.roles.create') }}" class="btn btn-primary float-right">Create Role</a>
                         </div>
                         <div class="card-body">
                             <table class="table table-bordered table-hover">
@@ -48,10 +48,10 @@
                                             @endforeach
                                         </td>
                                         <td>
-                                            <a href="{{ route('roles.show', $role) }}" class="btn btn-sm btn-secondary">View</a>
-                                            <a href="{{ route('roles.edit', $role) }}"
+                                            <a href="{{ route('admin.roles.show', $role) }}" class="btn btn-sm btn-secondary">View</a>
+                                            <a href="{{ route('admin.roles.edit', $role) }}"
                                                class="btn btn-sm btn-info">Edit</a>
-                                            <form action="{{ route('roles.destroy', $role) }}" method="POST"
+                                            <form action="{{ route('admin.roles.destroy', $role) }}" method="POST"
                                                   class="d-inline"
                                                   onsubmit="return confirm('Are you sure to delete this role?')">
                                                 @csrf

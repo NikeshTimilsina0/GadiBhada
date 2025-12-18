@@ -1,17 +1,44 @@
-<!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-          <i class="fas fa-expand-arrows-alt"></i>
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="{{ url('/') }}">
+            CMSPractice
         </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal" role="button">
-          <i class="fas fa-power-off"></i>
-        </a>
-      </li>
-    </ul>
-  </nav>
-  <!-- /.navbar -->
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav ms-auto">
+                <a class="nav-link" href="{{ url('/') }}">Home</a>
+
+                @foreach($navigations as $nav)
+                @if($nav->children->count() > 0)
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        {{ $nav->title }}
+                    </a>
+
+                    <ul class="dropdown-menu">
+                        @foreach($nav->children as $child)
+                        <li>
+                            <a class="dropdown-item" href="{{ url($child->slug) }}">
+                                {{ $child->title }}
+                            </a>
+                        </li>
+                        @endforeach
+                    </ul>
+                </li>
+                @else
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url($nav->slug) }}">
+                        {{ $nav->title }}
+                    </a>
+                </li>
+                @endif
+                @endforeach
+
+            </ul>
+        </div>
+    </div>
+</nav>

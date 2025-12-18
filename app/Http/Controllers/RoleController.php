@@ -14,7 +14,6 @@ class RoleController extends Controller
         $this->middleware('permission:role.edit')->only(['edit', 'update']);
         $this->middleware('permission:role.view')->only(['index', 'show']);
         $this->middleware('permission:role.create')->only(['create', 'store']);
-        $this->middleware('permission:role.edit')->only(['edit', 'update']);
         $this->middleware('permission:role.delete')->only(['destroy']);
     }
 
@@ -22,62 +21,65 @@ class RoleController extends Controller
     public function index()
     {
         $roles = Role::with('permissions')->get();
-        return view('roles.index', compact('roles'));
+        return view('admin.roles.index', compact('roles'));
     }
 
     public function create()
     {
         $permissions = Permission::all();
-        return view('roles.create', compact('permissions'));
+        return view('admin.roles.create', compact('permissions'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|unique:roles,name',
-            'permissions' => 'array'
+            'permissions' => 'nullable|array',
+            'permissions.*' => 'exists:permissions,id',
         ]);
 
         $role = Role::create(['name' => $request->name]);
 
-        if ($request->filled('permissions')) {
-            $role->syncPermissions($request->permissions);
-        }
+        // Convert IDs to permission objects
+        $role->syncPermissions(Permission::find($request->permissions ?? []));
 
-        return redirect()->route('roles.index')->with('success', 'Role created successfully.');
-    }
-
-    public function show(Role $role)
-    {
-        $role->load('permissions');
-        return view('roles.show', compact('role'));
-    }
-
-    public function edit(Role $role)
-    {
-        $permissions = Permission::all();
-        $role->load('permissions');
-        return view('roles.edit', compact('role', 'permissions'));
+        return redirect()->route('admin.roles.index')->with('success', 'Role created successfully.');
     }
 
     public function update(Request $request, Role $role)
     {
         $request->validate([
             'name' => 'required|unique:roles,name,' . $role->id,
-            'permissions' => 'array'
+            'permissions' => 'nullable|array',
+            'permissions.*' => 'exists:permissions,id',
         ]);
 
         $role->update(['name' => $request->name]);
 
-        $permissions = Permission::whereIn('id', $request->permissions ?? [])->get();
-        $role->syncPermissions($permissions);
+        // Convert IDs to permission objects
+        $role->syncPermissions(Permission::find($request->permissions ?? []));
 
-        return redirect()->route('roles.index')->with('success', 'Role updated successfully.');
+        return redirect()->route('admin.roles.index')->with('success', 'Role updated successfully.');
     }
+
+
+    public function show(Role $role)
+    {
+        $role->load('permissions');
+        return view('admin.roles.show', compact('role'));
+    }
+
+    public function edit(Role $role)
+    {
+        $permissions = Permission::all();
+        $role->load('permissions');
+        return view('admin.roles.edit', compact('role', 'permissions'));
+    }
+
 
     public function destroy(Role $role)
     {
         $role->delete();
-        return redirect()->route('roles.index')->with('success', 'Role deleted successfully.');
+        return redirect()->route('admin.roles.index')->with('success', 'Role deleted successfully.');
     }
 }

@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('admin.layouts.master')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -27,7 +27,7 @@
                         <div class="card-header">
                             <h3 class="card-title">Create Role</h3>
                         </div>
-                        <form action="{{ route('roles.store') }}" method="POST">
+                        <form action="{{ route('admin.roles.store') }}" method="POST">
                             @csrf
                             <div class="card-body">
                                 <div class="form-group">
@@ -50,7 +50,7 @@
                                 </div>
                             </div>
                             <div class="card-footer text-right">
-                                <a href="{{ route('roles.index') }}" class="btn btn-secondary">Back</a>
+                                <a href="{{ route('admin.roles.index') }}" class="btn btn-secondary">Back</a>
                                 <button type="submit" class="btn btn-success">Create</button>
                             </div>
                         </form>
