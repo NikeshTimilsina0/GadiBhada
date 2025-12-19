@@ -20,7 +20,7 @@ return new class extends Migration {
             // Page content
             $table->text('short_content')->nullable();
             $table->longText('main_content')->nullable();
-            $table->text('banner')->nullable();
+            $table->string('banner')->nullable();
 
             $table->timestamps();
 

@@ -9,14 +9,14 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
 
 
-
 /*
 |--------------------------------------------------------------------------
 | Public Routes
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', action: [HomeController::class, 'index']);
+Route::get('/home', action: [HomeController::class, 'index']);
 
 
 Auth::routes();
@@ -75,3 +75,9 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::put('/navigations/{navigation}', [NavigationController::class, 'update'])->name('navigations.update');
     Route::delete('/navigations/{navigation}', [NavigationController::class, 'destroy'])->name('navigations.destroy');
 });
+
+
+use App\Http\Controllers\PageController;
+
+// Catch-all route for CMS pages by slug
+Route::get('{slug}', [PageController::class, 'show'])->name('pages.show');

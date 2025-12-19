@@ -53,7 +53,9 @@
                                     <th>Title</th>
                                     <th>Slug</th>
                                     <th>Page Type</th>
+                                    @if(!isset($parent))
                                     <th width="100">Children</th>
+                                    @endif
                                     <th width="240">Actions</th>
                                 </tr>
                             </thead>
@@ -73,6 +75,9 @@
                                         @endif
                                     </td>
 
+
+                                    @if (!isset($parent))
+
                                     <td>
                                         @if($nav->children_count > 0)
                                         <span class="badge badge-success">{{ $nav->children_count }}</span>
@@ -80,6 +85,8 @@
                                         <span class="badge badge-danger">0</span>
                                         @endif
                                     </td>
+                                    @endif
+
 
                                     <td>
                                         <div class="d-flex gap-1">

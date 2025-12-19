@@ -11,7 +11,7 @@ class HomeController extends Controller
         $navigations = Navigation::with('children')
             ->where('parent_id', 0)    
             ->where('is_active', 1)
-            ->orderBy('position')
+            ->orderBy(column: 'position')
             ->get();
 
         return view('/home', compact('navigations'));
