@@ -2,11 +2,14 @@
 
 use App\Http\Controllers\Admin\AdminHomeController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\NavigationController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Public Routes
@@ -18,6 +21,15 @@ Route::get('/', [HomeController::class, 'index']);
 
 Auth::routes();
 
+Route::get('/login', function () {
+    if (Auth::check() && Auth::user()->hasRole('Admin')) {
+        // User is logged in and is admin → redirect to admin panel
+        return redirect()->route('admin.home');
+    }
+
+    // Otherwise show login view
+    return view('auth.login');
+})->name('login');
 /*
 |--------------------------------------------------------------------------
 | Admin Routes
@@ -27,6 +39,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
     // Admin Home
     Route::get('/home', [AdminHomeController::class, 'index'])->name('home');
+
 
     /*
     |--------------------------------------------------------------------------

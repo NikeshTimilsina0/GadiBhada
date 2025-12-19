@@ -16,7 +16,7 @@
 </head>
 
 <body class="hold-transition sidebar-mini">
-
+    @stack('styles')
     <div class="wrapper">
         <!-- Navbar -->
         @include('admin.partials.navbar')
